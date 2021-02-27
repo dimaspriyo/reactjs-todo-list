@@ -1,5 +1,5 @@
 import logo from "./logo.svg";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import DateTimePicker from "react-datetime-picker";
 import Datetime from "react-datetime";
 import "react-datetime/css/react-datetime.css";
@@ -7,24 +7,50 @@ import "./App.css";
 import moment from "moment";
 
 export default function App() {
+  const today = new Date();
   const [value, onChange] = useState(new Date());
   const [formInput, setFormInput] = useState({
     name: "",
     description: "",
-    time: null,
+    time: new Date().getTime()
   });
+
 
   const onChangeFormInput = (e) => {
     setFormInput({
       [e.target.name]: e.target.value,
     });
   };
-  console.log(formInput);
+
+  const onDateChange = (e) => {
+    const datetime = new Date(formInput.time);
+    const stringDateTime = e.format("DD-MM-YYYY") + ' ' + datetime.getHours() + ':' + datetime.getMinutes();
+    const newDateTime = new Date(stringDateTime).getTime();
+    setFormInput({
+      ...formInput, time: newDateTime
+    })
+
+  }
+
+  const onTimeChange = (e) => {
+    const datetime = new Date(formInput.time);
+    const stringDateTime = "03-02-2021 15:25";
+    const newDateTime = new Date(stringDateTime).getTime();
+    setFormInput({
+      ...formInput, time: newDateTime
+    })
+  }
+
+  const onSubmitForm = (e) => {
+    e.preventDefault();
+    console.log(formInput);
+  }
+
   return (
     <div className="container mx-auto">
       <div className="md:grid md:grid-cols-3 md:gap-6 flex items-center">
         <div className="mt-5 md:mt-0 md:col-span-2 h-6">
-          <form action="#" method="POST">
+          <form action="#" method="POST" onSubmit={onSubmitForm}>
             <div className="shadow sm:rounded-md sm:overflow-hidden">
               <div className="px-4 py-5 bg-white space-y-6 sm:p-6">
                 <div className="grid grid-cols-3 gap-6">
@@ -66,27 +92,28 @@ export default function App() {
                     </label>
                     <div className="mt-1 mb-32">
                       <Datetime
-                        id="datepicker"
                         viewMode="days"
                         timeFormat={false}
                         dateFormat="DD-MM-YYYY"
-                        onChange={(e) => console.log(e.format("DD-MM-YYYY"))}
+                        onChange={onDateChange}
+                        initialValue={formInput.time}
                       />
                     </div>
                   </div>
 
                   <div>
                     <label className="block text-sm font-medium text-gray-700">
-                      Date
+                      Time
                     </label>
                     <div className="mt-1 mb-32">
                       <Datetime
-                        id="datepicker"
                         viewMode="time"
                         dateFormat={false}
-                        // dateFormat="DD-MM-YYYY"
-                        onChange={(e) => console.log(e.format("HH:MM"))}
+                        onChange={onTimeChange}
+                        initialValue={formInput.time}
                       />
+
+                      
                     </div>
                   </div>
                   <div className="px-4 py-3 text-right sm:px-6 pt-5">
