@@ -1,0 +1,19 @@
+version: '3'
+services:
+  database:
+    image: 'bitnami/redis:latest'
+    environment:
+      ALLOW_EMPTY_PASSWORD: 'yes'
+    networks:
+      - reactjs-todo-list_default
+    ports: 
+      - "6379:6379"
+  # ToDoApp:
+  #   build: ./ToDoApp
+  #   ports: 
+  #     - "3000:3000"
+  #   networks:
+  #     - reactjs-todo-list_default
+networks:
+  reactjs-todo-list_default:
+    driver: bridge
