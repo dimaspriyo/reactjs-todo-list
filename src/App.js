@@ -7,6 +7,7 @@ import "./App.css";
 import moment from "moment";
 import Countdown from "react-countdown";
 import Swal from "sweetalert2";
+import $ from "jquery";
 
 export default function App() {
   const today = new Date();
@@ -51,6 +52,11 @@ export default function App() {
   const onSubmitForm = (e) => {
     e.preventDefault();
     console.log(formInput);
+  };
+
+  const onTriggerTimer = (id, title, message) => {
+    $("#div1").remove();
+    Swal.fire(title, message, "info");
   };
 
   return (
@@ -138,23 +144,50 @@ export default function App() {
         <div className="md:col-span-1 ">
           <div className="container overflow-y-scroll h-screen">
             {/* Cards */}
-            <div class="max-w-sm bg-white border-2 border-gray-300 p-6 rounded-md tracking-wide shadow-lg mt-5">
+            <div
+              class="max-w-sm bg-white border-2 border-gray-300 p-6 rounded-md tracking-wide shadow-lg mt-5"
+              id="div1"
+            >
               <div id="header" class="flex items-center mb-4">
-                {/* <Countdown date={Date.now() + 3000} onComplete={() => Swal.fire('Hello world!') }/> */}
                 <Countdown
                   date={Date.now() + 3000}
-                  onComplete={() =>
-                    Swal.fire(
-                      "The Internet?",
-                      "That thing is still around?",
-                      "info"
-                    )
-                  }
+                  onComplete={()=> onTriggerTimer(
+                    "div1",
+                    "Titleeeee",
+                    "Messageeeeee"
+                  )}
+
                 />
 
                 <div id="header-text" class="leading-5 ml-6 sm">
                   <h4 id="name" class="text-xl font-semibold">
                     John Doe
+                  </h4>
+                  <h5 id="job" class="font-semibold text-blue-600">
+                    Designer
+                  </h5>
+                </div>
+              </div>
+              <div id="quote">
+                <q class="italic text-gray-600">
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                </q>
+              </div>
+            </div>
+
+            <div
+              class="max-w-sm bg-white border-2 border-gray-300 p-6 rounded-md tracking-wide shadow-lg mt-5"
+              id="div2"
+            >
+              <div id="header" class="flex items-center mb-4">
+                <Countdown
+                  date={Date.now() + 3000}
+                />
+
+                <div id="header-text" class="leading-5 ml-6 sm">
+                  <h4 id="name" class="text-xl font-semibold">
+                    222222222222
                   </h4>
                   <h5 id="job" class="font-semibold text-blue-600">
                     Designer
