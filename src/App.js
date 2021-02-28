@@ -5,6 +5,8 @@ import Datetime from "react-datetime";
 import "react-datetime/css/react-datetime.css";
 import "./App.css";
 import moment from "moment";
+import Countdown from "react-countdown";
+import Swal from "sweetalert2";
 
 export default function App() {
   const today = new Date();
@@ -12,9 +14,8 @@ export default function App() {
   const [formInput, setFormInput] = useState({
     name: "",
     description: "",
-    time: new Date().getTime()
+    time: new Date().getTime(),
   });
-
 
   const onChangeFormInput = (e) => {
     setFormInput({
@@ -24,34 +25,40 @@ export default function App() {
 
   const onDateChange = (e) => {
     const datetime = new Date(formInput.time);
-    const stringDateTime = e.format("DD-MM-YYYY") + ' ' + datetime.getHours() + ':' + datetime.getMinutes();
+    const stringDateTime =
+      e.format("DD-MM-YYYY") +
+      " " +
+      datetime.getHours() +
+      ":" +
+      datetime.getMinutes();
     const newDateTime = new Date(stringDateTime).getTime();
     setFormInput({
-      ...formInput, time: newDateTime
-    })
-
-  }
+      ...formInput,
+      time: newDateTime,
+    });
+  };
 
   const onTimeChange = (e) => {
     const datetime = new Date(formInput.time);
     const stringDateTime = "03-02-2021 15:25";
     const newDateTime = new Date(stringDateTime).getTime();
     setFormInput({
-      ...formInput, time: newDateTime
-    })
-  }
+      ...formInput,
+      time: newDateTime,
+    });
+  };
 
   const onSubmitForm = (e) => {
     e.preventDefault();
     console.log(formInput);
-  }
+  };
 
   return (
-    <div className="container mx-auto">
-      <div className="md:grid md:grid-cols-3 md:gap-6 flex items-center">
-        <div className="mt-5 md:mt-0 md:col-span-2 h-6">
+    <div className="container m-auto h-screen">
+      <div className="md:grid md:grid-cols-3 md:gap-6 ">
+        <div className="mt-5 md:mt-0 md:col-span-2 flex items-center">
           <form action="#" method="POST" onSubmit={onSubmitForm}>
-            <div className="shadow sm:rounded-md sm:overflow-hidden">
+            <div className="shadow">
               <div className="px-4 py-5 bg-white space-y-6 sm:p-6">
                 <div className="grid grid-cols-3 gap-6">
                   <div className="col-span-3 sm:col-span-2">
@@ -112,8 +119,6 @@ export default function App() {
                         onChange={onTimeChange}
                         initialValue={formInput.time}
                       />
-
-                      
                     </div>
                   </div>
                   <div className="px-4 py-3 text-right sm:px-6 pt-5">
@@ -131,7 +136,39 @@ export default function App() {
         </div>
 
         <div className="md:col-span-1 ">
-          Table Right Here
+          <div className="container overflow-y-scroll h-screen">
+            {/* Cards */}
+            <div class="max-w-sm bg-white border-2 border-gray-300 p-6 rounded-md tracking-wide shadow-lg mt-5">
+              <div id="header" class="flex items-center mb-4">
+                {/* <Countdown date={Date.now() + 3000} onComplete={() => Swal.fire('Hello world!') }/> */}
+                <Countdown
+                  date={Date.now() + 3000}
+                  onComplete={() =>
+                    Swal.fire(
+                      "The Internet?",
+                      "That thing is still around?",
+                      "info"
+                    )
+                  }
+                />
+
+                <div id="header-text" class="leading-5 ml-6 sm">
+                  <h4 id="name" class="text-xl font-semibold">
+                    John Doe
+                  </h4>
+                  <h5 id="job" class="font-semibold text-blue-600">
+                    Designer
+                  </h5>
+                </div>
+              </div>
+              <div id="quote">
+                <q class="italic text-gray-600">
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                </q>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
