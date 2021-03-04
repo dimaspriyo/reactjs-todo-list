@@ -26,11 +26,11 @@ let AppController = class AppController {
     }
     createTask(request) {
         this.appService.saveTask(request);
-        return "createTask";
+        return "Task Successfuly Inserted";
     }
     getTasks() {
-        this.appService.getTasks();
-        return "getTasks";
+        var tasks = this.appService.getTasks();
+        return tasks;
     }
 };
 __decorate([
@@ -50,7 +50,7 @@ __decorate([
     common_1.Get(""),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
-    __metadata("design:returntype", String)
+    __metadata("design:returntype", void 0)
 ], AppController.prototype, "getTasks", null);
 AppController = __decorate([
     common_1.Controller(),

@@ -1,6 +1,9 @@
-import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import { Module } from "@nestjs/common";
+import { MongooseModule } from "@nestjs/mongoose";
+import { from } from "rxjs";
+import { AppController } from "./app.controller";
+import { AppService } from "./app.service";
+import { server } from "./db";
 
 @Module({
   imports: [],

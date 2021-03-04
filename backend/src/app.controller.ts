@@ -16,13 +16,13 @@ export class AppController {
   @Post()
   createTask(@Body() request : CreateTaskDTO): string{
     this.appService.saveTask(request);
-    return "createTask";
+    return "Task Successfuly Inserted";
   }
 
   @Get("")
-  getTasks(): string{
-     this.appService.getTasks();
-    return "getTasks";
+  getTasks(){
+    var tasks = this.appService.getTasks();
+    return tasks;
   }
 
   

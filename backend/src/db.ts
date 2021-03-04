@@ -1,32 +1,4 @@
-let redis = require('redis');
-const redisClient = redis.createClient({
-      host: '127.0.0.1'
-  });
+import {MongoClient} from 'mongodb';
 
-
-redisClient.on('error', function (err) {
-  console.log('error');
-});
-
-redisClient.on('ready', function (err) {
-  console.log('ready');
-});
-
-redisClient.on('connect', function (err) {
-  console.log('connect');
-});
-
-redisClient.on('reconnecting', function (err) {
-  console.log('reconnecting');
-});
-
-redisClient.on('end', function (err) {
-  console.log('end');
-});
-
-redisClient.on('warning', function (err) {
-  console.log('warning');
-});
-
-
-export {redisClient};
+const server = new MongoClient("mongodb://root:root@localhost:27017",{ useNewUrlParser: true });
+export {server};

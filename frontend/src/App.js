@@ -8,6 +8,12 @@ import moment from "moment";
 import Countdown from "react-countdown";
 import Swal from "sweetalert2";
 import $ from "jquery";
+import axios from 'axios';
+
+const httpClient = axios.create({
+  baseURL: 'http://localhost:3001',
+  timeout: 1000,
+});
 
 export default function App() {
   const today = new Date();
@@ -17,6 +23,16 @@ export default function App() {
     description: "",
     time: new Date().getTime(),
   });
+
+
+  useEffect(()=>{
+
+    httpClient.get().then(res => {
+      console.log(res);
+    })
+
+  },[])
+
 
   const onChangeFormInput = (e) => {
     setFormInput({

@@ -1,2 +1,3 @@
-declare const redisClient: any;
-export { redisClient };
+import { MongoClient } from 'mongodb';
+declare const server: MongoClient;
+export { server };

@@ -8,39 +8,32 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AppService = void 0;
 const common_1 = require("@nestjs/common");
-const MongoClient = require("mongodb").MongoClient;
+const db_1 = require("./db");
 let AppService = class AppService {
     getHello() {
         return "Hello World!";
     }
-    saveTask(request) {
+    async saveTask(request) {
+        console.log("Creating Documetn");
         var faker = require("faker");
-        MongoClient.connect("mongodb://root:root@localhost:27017", function (err, client) {
-            const db = client.db("todo");
-            const collection = db.collection("task");
-            collection.insertOne({
-                title: faker.name.title,
-                message: faker.random.word,
-                timestamp: new Date().getTime() + 40000,
-            }, (err, res) => {
-                console.log("Document Created");
-            });
-            client.close();
+        const connect = await db_1.server.connect();
+        const db = db_1.server.db("todo");
+        const collection = db.collection("task");
+        const insert = await collection.insertOne({
+            timestamp: request.timestamp,
+            message: request.message,
+            title: request.title
         });
     }
-    getTasks() {
+    async getTasks() {
         var tasks = [];
-        MongoClient.connect("mongodb://root:root@localhost:27017", function (err, client) {
-            const db = client.db("todo");
-            const collection = db.collection("task");
-            collection.find({}, (err, result) => {
-                result.forEach((res) => {
-                    console.log(res);
-                });
-            });
-            console.log(tasks);
-            client.close();
-        });
+        const connect = await db_1.server.connect();
+        const db = db_1.server.db("todo");
+        const collection = db.collection("task");
+        const result = await collection
+            .find({ timestamp: { $gt: new Date().getTime() } })
+            .toArray();
+        return result;
     }
 };
 AppService = __decorate([

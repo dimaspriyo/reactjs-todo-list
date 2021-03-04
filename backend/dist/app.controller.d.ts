@@ -5,5 +5,5 @@ export declare class AppController {
     constructor(appService: AppService);
     start(): string;
     createTask(request: CreateTaskDTO): string;
-    getTasks(): string;
+    getTasks(): Promise<any[]>;
 }
