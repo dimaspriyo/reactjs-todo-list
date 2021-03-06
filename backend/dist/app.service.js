@@ -22,7 +22,7 @@ let AppService = class AppService {
         const insert = await collection.insertOne({
             timestamp: request.timestamp,
             message: request.message,
-            title: request.title
+            title: request.title,
         });
     }
     async getTasks() {
@@ -30,8 +30,10 @@ let AppService = class AppService {
         const connect = await db_1.server.connect();
         const db = db_1.server.db("todo");
         const collection = db.collection("task");
+        console.log(new Date().getTime());
         const result = await collection
             .find({ timestamp: { $gt: new Date().getTime() } })
+            .sort({ timestamp: 1 })
             .toArray();
         return result;
     }

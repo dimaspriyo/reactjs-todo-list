@@ -8,31 +8,29 @@ import moment from "moment";
 import Countdown from "react-countdown";
 import Swal from "sweetalert2";
 import $ from "jquery";
-import axios from 'axios';
+import axios from "axios";
 
 const httpClient = axios.create({
-  baseURL: 'http://localhost:3001',
+  baseURL: "http://localhost:3001",
   timeout: 1000,
 });
 
 export default function App() {
   const today = new Date();
   const [value, onChange] = useState(new Date());
+  const [toDo, setToDo] = useState([]);
   const [formInput, setFormInput] = useState({
     name: "",
     description: "",
     time: new Date().getTime(),
   });
 
-
-  useEffect(()=>{
-
-    httpClient.get().then(res => {
-      console.log(res);
-    })
-
-  },[])
-
+  useEffect(() => {
+    httpClient.get().then((res) => {
+      var data = res.data;
+      setToDo(data);
+    });
+  }, []);
 
   const onChangeFormInput = (e) => {
     setFormInput({
@@ -71,7 +69,7 @@ export default function App() {
   };
 
   const onTriggerTimer = (id, title, message) => {
-    $("#div1").remove();
+    $("#" + id).remove();
     Swal.fire(title, message, "info");
   };
 
@@ -80,6 +78,7 @@ export default function App() {
       <div className="md:grid md:grid-cols-3 md:gap-6 ">
         <div className="mt-5 md:mt-0 md:col-span-2 flex items-center">
           <form action="#" method="POST" onSubmit={onSubmitForm}>
+        <p class="text-2xl">ToDo Form</p>
             <div className="shadow">
               <div className="px-4 py-5 bg-white space-y-6 sm:p-6">
                 <div className="grid grid-cols-3 gap-6">
@@ -160,63 +159,34 @@ export default function App() {
         <div className="md:col-span-1 ">
           <div className="container overflow-y-scroll h-screen">
             {/* Cards */}
-            <div
-              class="max-w-sm bg-white border-2 border-gray-300 p-6 rounded-md tracking-wide shadow-lg mt-5"
-              id="div1"
-            >
-              <div id="header" class="flex items-center mb-4">
-                <Countdown
-                  date={Date.now() + 3000}
-                  onComplete={()=> onTriggerTimer(
-                    "div1",
-                    "Titleeeee",
-                    "Messageeeeee"
-                  )}
 
-                />
+            {toDo &&
+              toDo.map((v, i) => {
+                return (
+                  <div
+                    className="max-w-sm bg-white border-2 border-gray-300 p-6 rounded-md tracking-wide shadow-lg mt-5"
+                    id={"todo" + i}
+                  >
+                    <div id="header" className="flex items-center mb-4">
+                      <Countdown
+                        date={v.timestamp}
+                        onComplete={() =>
+                          onTriggerTimer("todo" + i,v.title , v.message)
+                        }
+                      />
 
-                <div id="header-text" class="leading-5 ml-6 sm">
-                  <h4 id="name" class="text-xl font-semibold">
-                    John Doe
-                  </h4>
-                  <h5 id="job" class="font-semibold text-blue-600">
-                    Designer
-                  </h5>
-                </div>
-              </div>
-              <div id="quote">
-                <q class="italic text-gray-600">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                </q>
-              </div>
-            </div>
-
-            <div
-              class="max-w-sm bg-white border-2 border-gray-300 p-6 rounded-md tracking-wide shadow-lg mt-5"
-              id="div2"
-            >
-              <div id="header" class="flex items-center mb-4">
-                <Countdown
-                  date={Date.now() + 3000}
-                />
-
-                <div id="header-text" class="leading-5 ml-6 sm">
-                  <h4 id="name" class="text-xl font-semibold">
-                    222222222222
-                  </h4>
-                  <h5 id="job" class="font-semibold text-blue-600">
-                    Designer
-                  </h5>
-                </div>
-              </div>
-              <div id="quote">
-                <q class="italic text-gray-600">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                </q>
-              </div>
-            </div>
+                      <div id="header-text" className="leading-5 ml-6 sm">
+                        <h5 id="job" className="font-semibold text-blue-600">
+                          {v.title}
+                        </h5>
+                      </div>
+                    </div>
+                    <div id="quote">
+                      <q className="italic text-gray-600">{v.message}</q>
+                    </div>
+                  </div>
+                );
+              })}
           </div>
         </div>
       </div>

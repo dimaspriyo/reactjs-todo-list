@@ -17,13 +17,11 @@ export class AppService {
     const connect = await server.connect();
     const db = server.db("todo");
     const collection = db.collection("task");
-   const insert =  await collection.insertOne({
+    const insert = await collection.insertOne({
       timestamp: request.timestamp,
       message: request.message,
-      title: request.title
+      title: request.title,
     });
-
-    
   }
 
   async getTasks() {
@@ -33,10 +31,12 @@ export class AppService {
 
     const db = server.db("todo");
     const collection = db.collection("task");
+    console.log(new Date().getTime());
+    
     const result = await collection
       .find({ timestamp: { $gt: new Date().getTime() } })
+      .sort({ timestamp: 1 })
       .toArray();
-
 
     return result;
   }
