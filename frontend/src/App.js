@@ -20,9 +20,9 @@ export default function App() {
   const [value, onChange] = useState(new Date());
   const [toDo, setToDo] = useState([]);
   const [formInput, setFormInput] = useState({
-    name: "",
+    title: "",
     description: "",
-    time: new Date().getTime(),
+    timestamp: new Date().getTime(),
   });
 
   useEffect(() => {
@@ -34,38 +34,65 @@ export default function App() {
 
   const onChangeFormInput = (e) => {
     setFormInput({
+      ...formInput,
       [e.target.name]: e.target.value,
     });
   };
 
   const onDateChange = (e) => {
-    const datetime = new Date(formInput.time);
+
+    const datetime = new Date(formInput.timestamp);
     const stringDateTime =
       e.format("DD-MM-YYYY") +
       " " +
       datetime.getHours() +
       ":" +
       datetime.getMinutes();
-    const newDateTime = new Date(stringDateTime).getTime();
+
+      const newDateTime = moment(stringDateTime,"DD-MM-YYYY HH:mm").format('x');
+
+      console.log(newDateTime);
     setFormInput({
       ...formInput,
-      time: newDateTime,
+      timestamp: newDateTime,
     });
   };
 
   const onTimeChange = (e) => {
-    const datetime = new Date(formInput.time);
-    const stringDateTime = "03-02-2021 15:25";
-    const newDateTime = new Date(stringDateTime).getTime();
+    console.log(formInput.timestamp);
+    const datetime = moment(formInput.timestamp,'x');
+
+    console.log(datetime.format("DD-MM-YYYY"));
+    const stringDateTime =
+      datetime.format("DD-MM-YYYY") +
+      " " +
+      e.format("HH:mm");
+      
+      const newDateTime = moment(stringDateTime,"DD-MM-YYYY HH:mm").format('x');
     setFormInput({
       ...formInput,
-      time: newDateTime,
+      timestamp: newDateTime,
     });
+
   };
 
   const onSubmitForm = (e) => {
     e.preventDefault();
-    console.log(formInput);
+   
+    httpClient.post('',formInput).then((res) => {
+  
+      Swal.fire("Success", "To Do Inserted", "success");
+    })
+   
+
+    httpClient.get().then((res) => {
+      var data = res.data;
+      setToDo(data);
+    });
+
+    
+    
+    
   };
 
   const onTriggerTimer = (id, title, message) => {
@@ -84,12 +111,12 @@ export default function App() {
                 <div className="grid grid-cols-3 gap-6">
                   <div className="col-span-3 sm:col-span-2">
                     <label className="block text-sm font-medium text-gray-700">
-                      Task Name
+                      Title
                     </label>
                     <div className="mt-1 flex rounded-md shadow-sm">
                       <input
                         type="text"
-                        name="task_name"
+                        name="title"
                         className="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300"
                         placeholder="To Do"
                         onChange={onChangeFormInput}
@@ -100,11 +127,11 @@ export default function App() {
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700">
-                    Description
+                    Message
                   </label>
                   <div className="mt-1">
                     <textarea
-                      name="about"
+                      name="message"
                       rows="3"
                       className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border-gray-300 rounded-md"
                       placeholder="....."
@@ -124,7 +151,7 @@ export default function App() {
                         timeFormat={false}
                         dateFormat="DD-MM-YYYY"
                         onChange={onDateChange}
-                        initialValue={formInput.time}
+                        initialValue={formInput.timestamp}
                       />
                     </div>
                   </div>
@@ -138,7 +165,7 @@ export default function App() {
                         viewMode="time"
                         dateFormat={false}
                         onChange={onTimeChange}
-                        initialValue={formInput.time}
+                        initialValue={formInput.timestamp}
                       />
                     </div>
                   </div>
@@ -162,6 +189,7 @@ export default function App() {
 
             {toDo &&
               toDo.map((v, i) => {
+                console.log(v.timestamp + " , " +  Date.now() + 10000);
                 return (
                   <div
                     className="max-w-sm bg-white border-2 border-gray-300 p-6 rounded-md tracking-wide shadow-lg mt-5"

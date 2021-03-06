@@ -22,6 +22,7 @@ export class AppController {
   @Get("")
   getTasks(){
     var tasks = this.appService.getTasks();
+    
     return tasks;
   }
 

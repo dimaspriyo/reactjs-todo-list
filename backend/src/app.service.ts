@@ -34,10 +34,10 @@ export class AppService {
     console.log(new Date().getTime());
     
     const result = await collection
-      .find({ timestamp: { $gt: new Date().getTime() } })
-      .sort({ timestamp: 1 })
+      .find({ })
       .toArray();
-
+      console.log(result);
+      
     return result;
   }
 }
