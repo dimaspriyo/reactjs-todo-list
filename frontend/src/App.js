@@ -40,7 +40,6 @@ export default function App() {
   };
 
   const onDateChange = (e) => {
-
     const datetime = new Date(formInput.timestamp);
     const stringDateTime =
       e.format("DD-MM-YYYY") +
@@ -49,9 +48,8 @@ export default function App() {
       ":" +
       datetime.getMinutes();
 
-      const newDateTime = moment(stringDateTime,"DD-MM-YYYY HH:mm").format('x');
+    const newDateTime = moment(stringDateTime, "DD-MM-YYYY HH:mm").format("x");
 
-      console.log(newDateTime);
     setFormInput({
       ...formInput,
       timestamp: newDateTime,
@@ -59,40 +57,29 @@ export default function App() {
   };
 
   const onTimeChange = (e) => {
-    console.log(formInput.timestamp);
-    const datetime = moment(formInput.timestamp,'x');
+    const datetime = moment(formInput.timestamp, "x");
 
-    console.log(datetime.format("DD-MM-YYYY"));
     const stringDateTime =
-      datetime.format("DD-MM-YYYY") +
-      " " +
-      e.format("HH:mm");
-      
-      const newDateTime = moment(stringDateTime,"DD-MM-YYYY HH:mm").format('x');
+      datetime.format("DD-MM-YYYY") + " " + e.format("HH:mm");
+
+    const newDateTime = moment(stringDateTime, "DD-MM-YYYY HH:mm").format("x");
     setFormInput({
       ...formInput,
       timestamp: newDateTime,
     });
-
   };
 
-  const onSubmitForm = (e) => {
+  const onSubmitForm = async (e) => {
     e.preventDefault();
-   
-    httpClient.post('',formInput).then((res) => {
-  
-      Swal.fire("Success", "To Do Inserted", "success");
-    })
-   
 
-    httpClient.get().then((res) => {
+    await httpClient.post("", formInput).then((res) => {
+      Swal.fire("Success", "To Do Inserted", "success");
+    });
+
+    await httpClient.get().then((res) => {
       var data = res.data;
       setToDo(data);
     });
-
-    
-    
-    
   };
 
   const onTriggerTimer = (id, title, message) => {
@@ -105,7 +92,7 @@ export default function App() {
       <div className="md:grid md:grid-cols-3 md:gap-6 ">
         <div className="mt-5 md:mt-0 md:col-span-2 flex items-center">
           <form action="#" method="POST" onSubmit={onSubmitForm}>
-        <p class="text-2xl">ToDo Form</p>
+            <p class="text-2xl">ToDo Form</p>
             <div className="shadow">
               <div className="px-4 py-5 bg-white space-y-6 sm:p-6">
                 <div className="grid grid-cols-3 gap-6">
@@ -189,7 +176,6 @@ export default function App() {
 
             {toDo &&
               toDo.map((v, i) => {
-                console.log(v.timestamp + " , " +  Date.now() + 10000);
                 return (
                   <div
                     className="max-w-sm bg-white border-2 border-gray-300 p-6 rounded-md tracking-wide shadow-lg mt-5"
@@ -199,7 +185,7 @@ export default function App() {
                       <Countdown
                         date={v.timestamp}
                         onComplete={() =>
-                          onTriggerTimer("todo" + i,v.title , v.message)
+                          onTriggerTimer("todo" + i, v.title, v.message)
                         }
                       />
 
