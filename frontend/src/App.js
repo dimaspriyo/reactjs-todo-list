@@ -92,9 +92,9 @@ export default function App() {
       <div className="md:grid md:grid-cols-3 md:gap-6 ">
         <div className="mt-5 md:mt-0 md:col-span-2 flex items-center">
           <form action="#" method="POST" onSubmit={onSubmitForm}>
-            <p class="text-2xl">ToDo Form</p>
             <div className="shadow">
-              <div className="px-4 py-5 bg-white space-y-6 sm:p-6">
+              <div className="px-4 py-5 bg-white space-y-6 sm:p-6 bg-gray-200">
+            <p class="text-2xl">ToDo Form</p>
                 <div className="grid grid-cols-3 gap-6">
                   <div className="col-span-3 sm:col-span-2">
                     <label className="block text-sm font-medium text-gray-700">
@@ -170,7 +170,7 @@ export default function App() {
           </form>
         </div>
 
-        <div className="md:col-span-1 ">
+        <div className="md:col-span-1 bg-red-200 ">
           <div className="container overflow-y-scroll h-screen">
             {/* Cards */}
 
