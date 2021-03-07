@@ -74,11 +74,11 @@ export default function App() {
 
     await httpClient.post("", formInput).then((res) => {
       Swal.fire("Success", "To Do Inserted", "success");
-    });
 
-    await httpClient.get().then((res) => {
-      var data = res.data;
-      setToDo(data);
+      httpClient.get().then((res) => {
+        var data = res.data;
+        setToDo(data);
+      });
     });
   };
 
@@ -94,7 +94,7 @@ export default function App() {
           <form action="#" method="POST" onSubmit={onSubmitForm}>
             <div className="shadow">
               <div className="px-4 py-5 bg-white space-y-6 sm:p-6 bg-gray-200">
-            <p class="text-2xl">ToDo Form</p>
+                <p class="text-2xl">ToDo Form</p>
                 <div className="grid grid-cols-3 gap-6">
                   <div className="col-span-3 sm:col-span-2">
                     <label className="block text-sm font-medium text-gray-700">
@@ -174,33 +174,32 @@ export default function App() {
           <div className="container overflow-y-scroll h-screen">
             {/* Cards */}
 
-            {toDo &&
-              toDo.map((v, i) => {
-                return (
-                  <div
-                    className="max-w-sm bg-white border-2 border-gray-300 p-6 rounded-md tracking-wide shadow-lg mt-5"
-                    id={"todo" + i}
-                  >
-                    <div id="header" className="flex items-center mb-4">
-                      <Countdown
-                        date={v.timestamp}
-                        onComplete={() =>
-                          onTriggerTimer("todo" + i, v.title, v.message)
-                        }
-                      />
+            {toDo.map((v, i) => {
+              return (
+                <div
+                  className="max-w-sm bg-white border-2 border-gray-300 p-6 rounded-md tracking-wide shadow-lg mt-5"
+                  id={v._id}
+                >
+                  <div id="header" className="flex items-center mb-4">
+                    <Countdown
+                      date={v.timestamp}
+                      onComplete={() =>
+                        onTriggerTimer(v._id, v.title, v.message)
+                      }
+                    />
 
-                      <div id="header-text" className="leading-5 ml-6 sm">
-                        <h5 id="job" className="font-semibold text-blue-600">
-                          {v.title}
-                        </h5>
-                      </div>
-                    </div>
-                    <div id="quote">
-                      <q className="italic text-gray-600">{v.message}</q>
+                    <div id="header-text" className="leading-5 ml-6 sm">
+                      <h5 id="job" className="font-semibold text-blue-600">
+                        {v.title}
+                      </h5>
                     </div>
                   </div>
-                );
-              })}
+                  <div id="quote">
+                    <q className="italic text-gray-600">{v.message}</q>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
       </div>

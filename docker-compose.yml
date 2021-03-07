@@ -18,18 +18,18 @@ services:
       - reactjs-todo-list_default
     ports: 
       - "8081:8081"
-  # frontend:
-  #   build: ./frontend
-  #   ports: 
-  #     - "3000:3000"
-  #   networks:
-  #     - reactjs-todo-list_default
-  # backend:
-  #   build: ./backend
-  #   ports: 
-  #     - "3001:3000"
-  #   networks:
-  #     - reactjs-todo-list_default
+  frontend:
+    build: ./frontend
+    ports: 
+      - "3000:3000"
+    networks:
+      - reactjs-todo-list_default
+  backend:
+    build: ./backend
+    ports: 
+      - "3001:3001"
+    networks:
+      - reactjs-todo-list_default
 networks:
   reactjs-todo-list_default:
     driver: bridge
