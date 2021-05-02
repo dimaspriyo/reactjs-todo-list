@@ -10,4 +10,4 @@ sudo docker-compose up
 ```
 
 ## Screenshoots
-![Application Screenshoot](https://github.com/dimaspriyo/todo-list/screenshoot/home.png)
+![Application Screenshoot](https://github.com/dimaspriyo/todo-list/blob/main/screenshoot/home.png)
